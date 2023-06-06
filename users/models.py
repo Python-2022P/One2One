@@ -18,10 +18,10 @@ class User(models.Model):
 
 class Contact(models.Model):
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
-
     phone = models.CharField(max_length=45)
     address = models.CharField(max_length=45)
     city = models.CharField(max_length=45)
+    
     
     
     def __str__(self):
