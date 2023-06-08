@@ -5,7 +5,7 @@ from .views import (
 )
                      
 urlpatterns = [
-   
+    path('', get_groups),
     path('<int:id>',get_group_id),
-    # path('', get_groups),
+    
 ]
