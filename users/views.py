@@ -97,7 +97,8 @@ def get_user_id(request:HttpRequest,id) -> JsonResponse:
 def contact(request:HttpRequest, id) -> JsonResponse:
     if request.method == 'GET':
         try:
-            contact = Contact.objects.get(id=id)
+            user = User.objects.get(id = id)
+            contact = Contact.objects.get(user = user)
         except ObjectDoesNotExist:
             return JsonResponse({'status': 'object does not exist!'})
         
@@ -108,11 +109,10 @@ def contact(request:HttpRequest, id) -> JsonResponse:
         data_json = request.body.decode()
         data = json.loads(data_json)
 
-        user_id = User.objects.get(id = id)
-        user_id = to_dict(user_id)['id']
+        user = User.objects.get(id = id)
 
         contact = Contact.objects.create(
-            user_id = user_id,
+            user_id = user,
             phone = data['phone'],
             address = data['address'],
             city = data['city']
@@ -127,7 +127,8 @@ def contact(request:HttpRequest, id) -> JsonResponse:
         data = json.loads(data_json)
 
         try:
-            contact = Contact.objects.get(id = id)
+            user = User.objects.get(id = id)
+            contact = Contact.objects.get(user = user)
         except ObjectDoesNotExist:
             return JsonResponse({'status': 'object does not exist!'})
         
@@ -145,7 +146,8 @@ def contact(request:HttpRequest, id) -> JsonResponse:
 
     elif request.method == 'DELETE':
         try:
-            contact = Contact.objects.get(id=id)
+            user = User.objects.get(id=id)
+            contact = Contact.objects.get(user=user)
         except ObjectDoesNotExist:
             return JsonResponse({'status': 'object does not exist!'})
 
@@ -155,25 +157,20 @@ def contact(request:HttpRequest, id) -> JsonResponse:
 
     
 def get_all(request:HttpRequest)->JsonResponse:
-    
-    contacts = Contact.objects.all()
-    data = {
-        'results':[]
-    }
-    for contact in contacts:
-        user = contact.user
-        data['results'].append({
-            'first_name':user.first_name,
-            'last_name':user.last_name,
-            'username':user.username,
-            'age':user.age,
-            'phone':contact.phone,
-            'address':contact.address,
-            'city' : contact.city
-           
-        })
+    users = User.objects.all()
 
-    return JsonResponse(data)
+    results = []
+    for user in users:
+        user_data = to_dict(user)
+        try:
+            contact = Contact.objects.get(user = user)
+            user_data['contact'] = to_contact(contact)
+        except ObjectDoesNotExist:
+            user_data['contact'] = None
+
+        results.append(user_data)
+
+    return JsonResponse(results,safe=False)
 
 
 

@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'users.apps.UsersConfig',
+<<<<<<< HEAD
     "groups.apps.GroupsConfig"
+=======
+    'groups.apps.GroupsConfig',
+>>>>>>> 8bcb8a02107cde688878cff49505c930f52d9f70
 ]
 
 MIDDLEWARE = [

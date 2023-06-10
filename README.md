@@ -24,6 +24,13 @@
 | address | varchar(255) | Address |
 | city | varchar(255) | City |
 
+### Group
+
+| Field | Type | Description |
+| --- | --- | --- |
+| id | int | Primary key |
+| name | varchar(20) | group name |
+| students | list[int] | students |
 
 ## API
 
@@ -47,6 +54,19 @@
 | POST | /users/:user_id/contact | Create contact |
 | PUT | /users/:user_id/contact | Update contact |
 | DELETE | /users/:user_id/contact | Delete contact |
+
+#### Group
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| GET | /groups | Get groups |
+| GET | /groups/:group_id | Get group |
+| POST | /groups | Create group |
+| PUT | /groups/:group_id | Update group |
+| DELETE | /groups/:group_id | Delete group |
+| GET | /groups/:gruop_id/students | Get students by group id |
+| POST | /group/:groups_id/add/:student_id | Add student to group |
+| DELETE | /group/:groups_id/remove/:student_id | Remove student from froup |
 
 ### Request & Response
 
